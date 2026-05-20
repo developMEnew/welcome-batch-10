@@ -4,111 +4,111 @@
 @custom-variant dark (&:is(.dark *));
 
 :root {
-  /* Deep gradient background - maroon to brown */
-  --background: 15 35% 15%;
+  /* Royal Peacock Futurism - Deep midnight navy background */
+  --background: 260 40% 12%;
   --foreground: 40 30% 95%;
   
-  /* Ultra 3D glass cards with maroon tint */
-  --card: 0 40% 25%;
+  /* Soft glass cards with peacock tint */
+  --card: 260 35% 20%;
   --card-foreground: 40 30% 95%;
   
-  --popover: 0 40% 25%;
+  --popover: 260 35% 20%;
   --popover-foreground: 40 30% 95%;
   
-  /* Maroon as primary color - vibrant */
-  --primary: 0 65% 45%;
+  /* Royal deep indigo as primary */
+  --primary: 260 50% 35%;
   --primary-foreground: 40 30% 98%;
   
-  /* Gold as secondary color - bright */
-  --secondary: 45 95% 60%;
-  --secondary-foreground: 0 15% 15%;
+  /* Gold accent - luxurious */
+  --secondary: 45 95% 58%;
+  --secondary-foreground: 260 40% 12%;
   
-  /* Brown muted tones with depth */
-  --muted: 30 25% 35%;
+  /* Emerald teal muted tones */
+  --muted: 170 35% 35%;
   --muted-foreground: 40 20% 75%;
   
-  /* Gold accent - glowing */
-  --accent: 45 100% 55%;
-  --accent-foreground: 0 15% 15%;
+  /* Gold accent - bright and glowing */
+  --accent: 45 100% 56%;
+  --accent-foreground: 260 40% 12%;
   
   --destructive: 0 80% 55%;
   --destructive-foreground: 40 30% 98%;
   
-  /* Glowing borders */
-  --border: 0 50% 40%;
-  --input: 0 35% 30%;
-  --ring: 45 100% 55%;
+  /* Glowing peacock borders */
+  --border: 260 45% 35%;
+  --input: 260 30% 25%;
+  --ring: 45 100% 56%;
   
-  /* Chart colors: maroon, gold, brown variations */
-  --chart-1: 0 65% 45%;
-  --chart-2: 45 95% 60%;
-  --chart-3: 30 50% 50%;
-  --chart-4: 15 60% 55%;
-  --chart-5: 0 45% 35%;
+  /* Chart colors: peacock palette */
+  --chart-1: 45 100% 56%;
+  --chart-2: 260 50% 40%;
+  --chart-3: 210 60% 50%;
+  --chart-4: 170 70% 45%;
+  --chart-5: 45 95% 58%;
   
-  /* Ultra rounded for 3D effect */
-  --radius: 2rem;
+  /* Ultra rounded for luxury effect */
+  --radius: 1.5rem;
   
-  --sidebar: 0 40% 25%;
+  --sidebar: 260 35% 20%;
   --sidebar-foreground: 40 30% 95%;
-  --sidebar-primary: 0 65% 45%;
+  --sidebar-primary: 260 50% 35%;
   --sidebar-primary-foreground: 40 30% 98%;
-  --sidebar-accent: 45 100% 55%;
-  --sidebar-accent-foreground: 0 15% 15%;
-  --sidebar-border: 0 50% 40%;
-  --sidebar-ring: 45 100% 55%;
+  --sidebar-accent: 45 100% 56%;
+  --sidebar-accent-foreground: 260 40% 12%;
+  --sidebar-border: 260 45% 35%;
+  --sidebar-ring: 45 100% 56%;
 }
 
 .dark {
-  /* Deep space background with maroon/brown gradient */
-  --background: 0 30% 8%;
+  /* Deep midnight navy background */
+  --background: 260 40% 10%;
   --foreground: 40 30% 95%;
   
-  /* Ultra dark glass cards with maroon tint */
-  --card: 0 35% 18%;
+  /* Ultra dark peacock glass cards */
+  --card: 260 35% 18%;
   --card-foreground: 40 30% 95%;
   
-  --popover: 0 35% 18%;
+  --popover: 260 35% 18%;
   --popover-foreground: 40 30% 95%;
   
   /* Gold as primary in dark mode - glowing */
-  --primary: 45 95% 60%;
-  --primary-foreground: 0 20% 10%;
+  --primary: 45 100% 56%;
+  --primary-foreground: 260 40% 10%;
   
-  /* Maroon as secondary in dark mode */
-  --secondary: 0 60% 50%;
+  /* Deep indigo as secondary in dark mode */
+  --secondary: 260 50% 40%;
   --secondary-foreground: 40 30% 95%;
   
-  /* Brown muted tones */
-  --muted: 30 20% 25%;
+  /* Emerald teal muted tones */
+  --muted: 170 35% 30%;
   --muted-foreground: 40 25% 70%;
   
   /* Gold accent - bright */
-  --accent: 45 100% 55%;
-  --accent-foreground: 0 20% 10%;
+  --accent: 45 100% 56%;
+  --accent-foreground: 260 40% 10%;
   
   --destructive: 0 80% 55%;
   --destructive-foreground: 40 30% 95%;
   
-  --border: 0 45% 35%;
-  --input: 0 30% 22%;
-  --ring: 45 100% 55%;
+  --border: 260 40% 35%;
+  --input: 260 30% 22%;
+  --ring: 45 100% 56%;
   
-  /* Chart colors for dark mode */
-  --chart-1: 45 95% 60%;
-  --chart-2: 0 65% 50%;
-  --chart-3: 30 50% 55%;
-  --chart-4: 15 60% 60%;
-  --chart-5: 0 50% 40%;
+  /* Chart colors for peacock mode */
+  --chart-1: 45 100% 56%;
+  --chart-2: 210 60% 50%;
+  --chart-3: 170 70% 45%;
+  --chart-4: 260 50% 40%;
+  --chart-5: 45 95% 58%;
   
-  --sidebar: 0 35% 18%;
+  --sidebar: 260 35% 18%;
   --sidebar-foreground: 40 30% 95%;
-  --sidebar-primary: 45 95% 60%;
-  --sidebar-primary-foreground: 0 20% 10%;
-  --sidebar-accent: 45 100% 55%;
-  --sidebar-accent-foreground: 0 20% 10%;
-  --sidebar-border: 0 45% 35%;
-  --sidebar-ring: 45 100% 55%;
+  --sidebar-primary: 45 100% 56%;
+  --sidebar-primary-foreground: 260 40% 10%;
+  --sidebar-accent: 45 100% 56%;
+  --sidebar-accent-foreground: 260 40% 10%;
+  --sidebar-border: 260 40% 35%;
+  --sidebar-ring: 45 100% 56%;
 }
 
 @theme inline {
@@ -162,7 +162,7 @@
   
   body {
     @apply bg-background text-foreground;
-    background: linear-gradient(160deg, hsl(0 30% 8%) 0%, hsl(0 35% 12%) 40%, hsl(15 30% 15%) 70%, hsl(0 25% 10%) 100%);
+    background: linear-gradient(160deg, hsl(260 40% 10%) 0%, hsl(270 35% 15%) 30%, hsl(250 38% 12%) 60%, hsl(260 40% 8%) 100%);
     background-attachment: fixed;
   }
   
@@ -173,16 +173,16 @@
     inset: 0;
     z-index: 0;
     background-image:
-      radial-gradient(1px 1px at 10% 15%, rgba(255,215,0,0.6) 0%, transparent 100%),
-      radial-gradient(1px 1px at 25% 40%, rgba(139,69,19,0.4) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 50% 8%, rgba(255,215,0,0.7) 0%, transparent 100%),
-      radial-gradient(1px 1px at 70% 55%, rgba(178,34,34,0.3) 0%, transparent 100%),
-      radial-gradient(2px 2px at 85% 20%, rgba(255,215,0,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 93% 72%, rgba(139,69,19,0.4) 0%, transparent 100%),
-      radial-gradient(1.5px 1.5px at 35% 80%, rgba(178,34,34,0.3) 0%, transparent 100%),
-      radial-gradient(1px 1px at 60% 90%, rgba(255,215,0,0.5) 0%, transparent 100%),
-      radial-gradient(1px 1px at 15% 65%, rgba(139,69,19,0.4) 0%, transparent 100%),
-      radial-gradient(2px 2px at 45% 30%, rgba(255,215,0,0.4) 0%, transparent 100%);
+      radial-gradient(1px 1px at 10% 15%, rgba(255,215,0,0.5) 0%, transparent 100%),
+      radial-gradient(1px 1px at 25% 40%, rgba(100,200,200,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 50% 8%, rgba(255,215,0,0.6) 0%, transparent 100%),
+      radial-gradient(1px 1px at 70% 55%, rgba(150,100,200,0.2) 0%, transparent 100%),
+      radial-gradient(2px 2px at 85% 20%, rgba(255,215,0,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 93% 72%, rgba(100,200,200,0.3) 0%, transparent 100%),
+      radial-gradient(1.5px 1.5px at 35% 80%, rgba(150,100,200,0.2) 0%, transparent 100%),
+      radial-gradient(1px 1px at 60% 90%, rgba(255,215,0,0.4) 0%, transparent 100%),
+      radial-gradient(1px 1px at 15% 65%, rgba(100,200,200,0.3) 0%, transparent 100%),
+      radial-gradient(2px 2px at 45% 30%, rgba(255,215,0,0.3) 0%, transparent 100%);
     pointer-events: none;
     animation: twinkle 8s ease-in-out infinite;
   }
@@ -267,45 +267,45 @@
   animation: float 4s ease-in-out infinite;
 }
 
-/* Ultra 3D gradient backgrounds */
+/* Ultra 3D gradient backgrounds - Royal Gold */
 .gradient-maroon-gold {
-  background: linear-gradient(135deg, hsl(0 65% 45%) 0%, hsl(45 95% 60%) 100%);
+  background: linear-gradient(135deg, hsl(260 50% 35%) 0%, hsl(45 100% 56%) 100%);
   box-shadow: 
-    0 10px 40px rgba(178, 34, 34, 0.4),
-    0 0 80px rgba(255, 215, 0, 0.2),
+    0 10px 40px rgba(75, 0, 130, 0.4),
+    0 0 80px rgba(255, 215, 0, 0.25),
     inset 0 1px 0 rgba(255, 255, 255, 0.1);
 }
 
 .gradient-glass-card {
   background: linear-gradient(135deg, 
-    rgba(139, 0, 0, 0.3) 0%, 
-    rgba(101, 67, 33, 0.25) 50%,
-    rgba(139, 0, 0, 0.2) 100%);
+    rgba(75, 0, 130, 0.25) 0%, 
+    rgba(100, 200, 200, 0.15) 50%,
+    rgba(75, 0, 130, 0.2) 100%);
   backdrop-filter: blur(20px) saturate(180%);
-  border: 2px solid rgba(255, 215, 0, 0.3);
+  border: 2px solid rgba(255, 215, 0, 0.25);
 }
 
-/* Ultra 3D Card shadow with depth */
+/* Ultra 3D Card shadow with depth - Peacock luxury */
 .card-shadow-3d {
   box-shadow: 
-    0 2px 4px rgba(0, 0, 0, 0.3),
-    0 8px 16px rgba(178, 34, 34, 0.3),
-    0 16px 32px rgba(139, 69, 19, 0.2),
-    0 0 60px rgba(255, 215, 0, 0.15),
-    inset 0 1px 0 rgba(255, 215, 0, 0.2),
-    inset 0 -1px 0 rgba(0, 0, 0, 0.3);
+    0 2px 4px rgba(0, 0, 0, 0.4),
+    0 8px 16px rgba(75, 0, 130, 0.3),
+    0 16px 32px rgba(100, 200, 200, 0.15),
+    0 0 60px rgba(255, 215, 0, 0.12),
+    inset 0 1px 0 rgba(255, 215, 0, 0.15),
+    inset 0 -1px 0 rgba(0, 0, 0, 0.4);
   transform-style: preserve-3d;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
 .card-shadow-3d:hover {
   box-shadow: 
-    0 4px 8px rgba(0, 0, 0, 0.4),
-    0 12px 24px rgba(178, 34, 34, 0.4),
-    0 24px 48px rgba(139, 69, 19, 0.3),
-    0 0 100px rgba(255, 215, 0, 0.3),
-    inset 0 2px 0 rgba(255, 215, 0, 0.3),
-    inset 0 -2px 0 rgba(0, 0, 0, 0.4);
+    0 4px 8px rgba(0, 0, 0, 0.5),
+    0 12px 24px rgba(75, 0, 130, 0.4),
+    0 24px 48px rgba(100, 200, 200, 0.25),
+    0 0 100px rgba(255, 215, 0, 0.25),
+    inset 0 2px 0 rgba(255, 215, 0, 0.2),
+    inset 0 -2px 0 rgba(0, 0, 0, 0.5);
   transform: translateY(-8px) scale(1.02);
 }
 
@@ -367,29 +367,29 @@
   75% { opacity: 0.98; }
 }
 
-/* 3D Button effect */
+/* 3D Button effect - Peacock luxury */
 .btn-3d {
   position: relative;
   transform-style: preserve-3d;
   transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
   box-shadow: 
-    0 4px 0 hsl(0 65% 35%),
-    0 8px 16px rgba(0, 0, 0, 0.3),
+    0 4px 0 hsl(260 45% 25%),
+    0 8px 16px rgba(0, 0, 0, 0.4),
     0 0 20px rgba(255, 215, 0, 0.2);
 }
 
 .btn-3d:hover {
   transform: translateY(-2px);
   box-shadow: 
-    0 6px 0 hsl(0 65% 35%),
-    0 12px 24px rgba(0, 0, 0, 0.4),
-    0 0 30px rgba(255, 215, 0, 0.4);
+    0 6px 0 hsl(260 45% 25%),
+    0 12px 24px rgba(0, 0, 0, 0.5),
+    0 0 30px rgba(255, 215, 0, 0.35);
 }
 
 .btn-3d:active {
   transform: translateY(2px);
   box-shadow: 
-    0 2px 0 hsl(0 65% 35%),
-    0 4px 8px rgba(0, 0, 0, 0.3),
+    0 2px 0 hsl(260 45% 25%),
+    0 4px 8px rgba(0, 0, 0, 0.4),
     0 0 10px rgba(255, 215, 0, 0.2);
 }
