@@ -4,34 +4,39 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
-import { ArrowRight, Sparkles, Users, Zap, Trophy } from 'lucide-react'
+import { Search, Home, Grid3x3, Settings, User, ArrowRight, Plus, ChevronDown } from 'lucide-react'
+import Image from 'next/image'
 
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
     opacity: 1,
     transition: {
-      staggerChildren: 0.08,
-      delayChildren: 0.15,
+      staggerChildren: 0.1,
+      delayChildren: 0.2,
     },
   },
 }
 
 const itemVariants = {
-  hidden: { opacity: 0, y: 30 },
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
     y: 0,
-    transition: { duration: 0.5, ease: 'easeOut' },
+    transition: { duration: 0.6, ease: 'easeOut' },
   },
 }
 
-const scaleVariants = {
-  hidden: { opacity: 0, scale: 0.9 },
+const floatVariants = {
+  hidden: { opacity: 0, y: 20 },
   visible: {
     opacity: 1,
-    scale: 1,
-    transition: { duration: 0.4, ease: 'easeOut' },
+    y: 0,
+    transition: { duration: 0.6 },
+  },
+  animate: {
+    y: [0, -10, 0],
+    transition: { duration: 4, repeat: Infinity, ease: 'easeInOut' },
   },
 }
 
@@ -41,7 +46,6 @@ export default function Landing() {
 
   useEffect(() => {
     setMounted(true)
-    // Fetch live visitor count from Vercel Analytics
     const fetchLiveVisitors = async () => {
       try {
         const response = await fetch('/api/analytics/live-visitors', {
@@ -49,18 +53,14 @@ export default function Landing() {
         })
         if (response.ok) {
           const data = await response.json()
-          setVisitorCount(data.count)
-          console.log('[v0] Live visitors from', data.source, ':', data.count)
+          setVisitorCount(data.liveVisitors || 0)
         }
       } catch (error) {
-        console.error('[v0] Error fetching live visitors:', error)
+        console.error('Failed to fetch live visitors:', error)
       }
     }
-    
-    // Fetch immediately
+
     fetchLiveVisitors()
-    
-    // Refresh every 10 seconds
     const interval = setInterval(fetchLiveVisitors, 10000)
     return () => clearInterval(interval)
   }, [])
@@ -68,211 +68,392 @@ export default function Landing() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen text-foreground overflow-hidden relative">
-      {/* Decorative peacock-inspired gradients */}
-      <div className="absolute top-0 left-0 w-[400px] h-[400px] bg-accent/25 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 animate-pulse" />
-      <div className="absolute -bottom-20 -right-20 w-[600px] h-[600px] bg-primary/20 rounded-full blur-[140px] opacity-60" style={{ animation: 'float 8s ease-in-out infinite' }} />
-      <div className="absolute top-1/3 right-1/3 w-[300px] h-[300px] bg-muted/15 rounded-full blur-[100px]" style={{ animation: 'float 10s ease-in-out infinite', animationDelay: '2s' }} />
+    <main className="min-h-screen bg-gradient-to-br from-[#2a1a4d] via-[#3d2563] to-[#1a0f3d] text-white overflow-hidden relative">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 right-0 w-96 h-96 bg-purple-500/10 rounded-full blur-3xl" />
+      <div className="absolute -bottom-32 left-1/2 w-96 h-96 bg-blue-500/5 rounded-full blur-3xl" />
 
       <div className="relative z-10">
-        {/* Header */}
-        <motion.header
-          className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 sm:gap-0 p-4 sm:p-6 lg:p-8 max-w-7xl mx-auto relative z-10"
+        {/* Top Navigation Bar */}
+        <motion.nav
+          className="flex flex-col md:flex-row justify-between items-center gap-4 md:gap-0 p-4 md:p-6 lg:p-8 max-w-7xl mx-auto"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.5 }}
+          transition={{ duration: 0.6 }}
         >
-          <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
-            <div className="text-4xl sm:text-3xl">✨</div>
-            <div>
-              <h1 className="text-2xl sm:text-3xl lg:text-4xl font-bold text-accent">
-                Welcome
-              </h1>
-              <p className="text-sm text-foreground/70 mt-1">Ceremony & Experience</p>
+          {/* Search Bar */}
+          <div className="w-full md:w-96 relative group">
+            <div className="absolute inset-0 bg-gradient-to-r from-purple-500/20 to-blue-500/10 rounded-full blur-xl group-hover:blur-2xl transition-all opacity-0 group-hover:opacity-100" />
+            <div className="relative flex items-center gap-3 px-5 py-3 bg-gradient-to-r from-[#4a3a7d]/40 to-[#3d2b5a]/40 rounded-full border border-purple-400/30 backdrop-blur-xl group-hover:border-purple-400/50 transition-all">
+              <Search className="w-5 h-5 text-purple-300" />
+              <input
+                type="text"
+                placeholder="Keindahan merak itu apa sih?"
+                className="bg-transparent outline-none text-sm text-white placeholder-purple-200/60 w-full"
+              />
             </div>
-            {visitorCount > 0 && (
-              <motion.div
-                className="text-xs sm:text-sm text-foreground/90 ml-0 sm:ml-8"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-              >
-                <span className="inline-flex items-center gap-2 px-3 py-2 rounded-xl gradient-glass-card card-shadow-3d whitespace-nowrap">
-                  <span className="inline-block w-2 h-2 bg-accent rounded-full" style={{ animation: 'pulse-glow 1.5s ease-in-out infinite' }} />
-                  <span className="font-semibold">{visitorCount} {visitorCount === 1 ? 'person' : 'people'}</span>
-                </span>
-              </motion.div>
-            )}
           </div>
-          <Link href="/admin/login" className="w-full sm:w-auto">
-            <Button
-              variant="outline"
-              className="w-full sm:w-auto text-xs sm:text-sm border-2 border-accent text-accent hover:bg-accent/10 rounded-xl transition-all btn-3d"
-            >
-              Admin Access
-            </Button>
-          </Link>
-        </motion.header>
 
-        {/* Main content */}
+          {/* Right side icons */}
+          <div className="flex items-center gap-3">
+            {/* Notification/Message Icon */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-3 bg-gradient-to-br from-[#4a3a7d]/50 to-[#3d2b5a]/50 rounded-xl border border-purple-400/30 hover:border-purple-400/60 transition-all backdrop-blur-sm"
+            >
+              <div className="text-lg">🔔</div>
+            </motion.button>
+
+            {/* Profile Icon */}
+            <motion.button
+              whileHover={{ scale: 1.1 }}
+              whileTap={{ scale: 0.95 }}
+              className="p-3 bg-gradient-to-br from-[#5a4a8d]/60 to-[#4d3b6d]/60 rounded-xl border border-amber-400/40 hover:border-amber-400/70 transition-all backdrop-blur-sm"
+            >
+              <div className="text-lg">✨</div>
+            </motion.button>
+          </div>
+        </motion.nav>
+
+        {/* Hero Section */}
         <motion.div
-          className="flex flex-col items-center justify-center min-h-[calc(100vh-140px)] px-4 sm:px-6 lg:px-8 py-12 relative z-10"
+          className="grid md:grid-cols-2 gap-8 p-4 md:p-6 lg:p-8 max-w-7xl mx-auto items-center mt-4 md:mt-8"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Hero Section */}
-          <motion.div className="text-center max-w-3xl w-full mb-4 sm:mb-8" variants={itemVariants}>
-            <motion.div 
-              className="mb-4 sm:mb-6 inline-block"
-              animate={{ y: [0, -8, 0] }}
-              transition={{ duration: 3, repeat: Infinity }}
+          {/* Left Content */}
+          <motion.div variants={itemVariants} className="flex flex-col justify-center">
+            <p className="text-xs md:text-sm tracking-widest text-purple-300/70 mb-2 md:mb-4">
+              CHALLENGE UI · WEB DESIGN
+            </p>
+            <h1 className="text-5xl md:text-6xl lg:text-7xl font-bold mb-2 md:mb-4 leading-tight">
+              <span className="text-amber-300">KEINDAHAN</span>
+              <br />
+              <span className="text-amber-100 italic font-light">Merak</span>
+            </h1>
+            <p className="text-xs md:text-sm tracking-widest text-purple-300/60 mb-6 md:mb-8">
+              ASKAR AKMIL DESIGN
+            </p>
+
+            {/* Action Buttons */}
+            <div className="flex flex-col sm:flex-row gap-3 md:gap-4 mb-8">
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link href="/login">
+                  <Button className="w-full sm:w-auto px-8 py-3 bg-gradient-to-r from-amber-600 to-amber-500 hover:from-amber-700 hover:to-amber-600 text-black font-bold rounded-full transition-all">
+                    LOGIN
+                  </Button>
+                </Link>
+              </motion.div>
+              <motion.div whileHover={{ scale: 1.05 }} whileTap={{ scale: 0.95 }}>
+                <Link href="/signup">
+                  <Button className="w-full sm:w-auto px-8 py-3 bg-transparent border-2 border-purple-400 text-purple-300 hover:bg-purple-400/10 font-bold rounded-full transition-all">
+                    BUAT AKUN
+                  </Button>
+                </Link>
+              </motion.div>
+            </div>
+
+            {/* Bottom Navigation Icons */}
+            <div className="flex gap-3">
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                className="p-3 bg-gradient-to-br from-[#4a3a7d]/50 to-[#3d2b5a]/50 rounded-xl border border-amber-400/50 hover:border-amber-400/80 transition-all"
+              >
+                <Home className="w-6 h-6 text-amber-300" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                className="p-3 bg-gradient-to-br from-[#4a3a7d]/50 to-[#3d2b5a]/50 rounded-xl border border-amber-400/50 hover:border-amber-400/80 transition-all"
+              >
+                <Grid3x3 className="w-6 h-6 text-amber-300" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                className="p-3 bg-gradient-to-br from-[#4a3a7d]/50 to-[#3d2b5a]/50 rounded-xl border border-amber-400/50 hover:border-amber-400/80 transition-all"
+              >
+                <Settings className="w-6 h-6 text-amber-300" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.1 }}
+                className="p-3 bg-gradient-to-br from-[#4a3a7d]/50 to-[#3d2b5a]/50 rounded-xl border border-amber-400/50 hover:border-amber-400/80 transition-all"
+              >
+                <User className="w-6 h-6 text-amber-300" />
+              </motion.button>
+            </div>
+          </motion.div>
+
+          {/* Right - Hero Image and Info Card */}
+          <motion.div
+            variants={itemVariants}
+            className="flex flex-col gap-4 md:gap-6"
+          >
+            {/* Featured Peacock Image */}
+            <motion.div
+              className="relative rounded-3xl overflow-hidden border-2 border-purple-400/40 backdrop-blur-xl bg-gradient-to-br from-purple-500/20 to-blue-500/10 p-1"
+              whileHover={{ scale: 1.02 }}
             >
-              <span className="text-5xl sm:text-6xl lg:text-7xl">👑</span>
+              <div className="relative w-full aspect-[3/4] rounded-2xl overflow-hidden">
+                <Image
+                  src="/peacock-hero.jpg"
+                  alt="Keindahan Merak"
+                  fill
+                  className="object-cover"
+                  priority
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent" />
+              </div>
             </motion.div>
-            <h2 className="text-4xl sm:text-5xl lg:text-6xl font-bold mb-3 sm:mb-4" style={{
-              background: 'linear-gradient(135deg, hsl(45 100% 56%) 0%, hsl(45 95% 58%) 40%, hsl(260 50% 40%) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              You&apos;re In!
-            </h2>
-            <p className="text-base sm:text-lg lg:text-xl text-foreground/80 leading-relaxed">
-              Join an extraordinary welcome experience. Connect with peers, showcase your knowledge, and make your voice heard.
-            </p>
-          </motion.div>
 
-          {/* Main CTA Buttons */}
-          <motion.div
-            className="flex flex-col sm:grid sm:grid-cols-2 lg:flex lg:flex-row gap-3 sm:gap-4 lg:gap-6 mt-6 sm:mt-10 w-full sm:max-w-2xl lg:max-w-4xl justify-center"
-            variants={itemVariants}
-          >
-            <Link href="/ask-question" className="w-full">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  size="lg"
-                  className="w-full h-12 sm:h-14 bg-gradient-to-br from-secondary to-accent hover:opacity-90 text-secondary-foreground rounded-2xl font-bold text-base sm:text-lg btn-3d flex items-center justify-center gap-2 transition-all"
-                >
-                  <Sparkles className="w-5 h-5" />
-                  Ask a Question
-                </Button>
-              </motion.div>
-            </Link>
-
-            <Link href="/quiz" className="w-full">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  size="lg"
-                  className="w-full h-12 sm:h-14 bg-gradient-to-br from-primary to-secondary hover:opacity-90 text-primary-foreground rounded-2xl font-bold text-base sm:text-lg btn-3d flex items-center justify-center gap-2 transition-all"
-                >
-                  <Zap className="w-5 h-5" />
-                  Take the Quiz
-                </Button>
-              </motion.div>
-            </Link>
-
-            <Link href="/leaderboard" className="w-full">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  size="lg"
-                  className="w-full h-12 sm:h-14 bg-gradient-to-br from-accent to-primary hover:opacity-90 text-accent-foreground rounded-2xl font-bold text-base sm:text-lg btn-3d flex items-center justify-center gap-2 transition-all"
-                >
-                  <Trophy className="w-5 h-5" />
-                  Leaderboard
-                </Button>
-              </motion.div>
-            </Link>
-
-            <Link href="/feedback" className="w-full">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-              >
-                <Button
-                  size="lg"
-                  className="w-full h-12 sm:h-14 gradient-maroon-gold hover:opacity-90 text-white rounded-2xl font-bold text-base sm:text-lg btn-3d flex items-center justify-center gap-2 transition-all"
-                >
-                  <ArrowRight className="w-5 h-5" />
-                  Your Feedback
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-
-          {/* Feature Cards Grid */}
-          <motion.div
-            className="grid grid-cols-1 sm:grid-cols-3 gap-3 sm:gap-4 lg:gap-6 mt-12 sm:mt-16 w-full max-w-5xl"
-            variants={containerVariants}
-          >
-            {[
-              {
-                title: 'Live Q&A',
-                description: 'Real-time engagement',
-                icon: Users,
-                color: 'from-accent/20 to-primary/20'
-              },
-              {
-                title: 'Knowledge Test',
-                description: 'Fun challenges',
-                icon: Zap,
-                color: 'from-primary/20 to-secondary/20'
-              },
-              {
-                title: 'Compete & Win',
-                description: 'Climb the ranks',
-                icon: Trophy,
-                color: 'from-secondary/20 to-accent/20'
-              },
-            ].map((feature, index) => {
-              const Icon = feature.icon
-              return (
-                <motion.div
-                  key={index}
-                  className="group rounded-2xl overflow-hidden backdrop-blur-md"
-                  variants={scaleVariants}
-                  whileHover={{ y: -8, scale: 1.02 }}
-                >
-                  <div className={`bg-gradient-to-br ${feature.color} p-6 sm:p-8 text-center card-shadow-3d glow-border rounded-2xl h-full flex flex-col justify-center items-center`}>
-                    <Icon className="w-8 h-8 sm:w-10 sm:h-10 text-accent mb-3 sm:mb-4 group-hover:scale-110 transition-transform" />
-                    <h3 className="font-bold text-base sm:text-lg text-foreground mb-1 sm:mb-2">
-                      {feature.title}
-                    </h3>
-                    <p className="text-xs sm:text-sm text-foreground/70">
-                      {feature.description}
-                    </p>
-                  </div>
-                </motion.div>
-              )
-            })}
-          </motion.div>
-
-          {/* Bottom CTA */}
-          <motion.div
-            className="mt-12 sm:mt-16 text-center"
-            variants={itemVariants}
-          >
-            <p className="text-sm sm:text-base text-foreground/70 mb-4 sm:mb-6">
-              💬 Your feedback shapes our future
-            </p>
-            <Link href="/leaderboard">
-              <Button
-                variant="outline"
-                className="border-2 border-accent text-accent hover:bg-accent/10 rounded-full px-6 sm:px-8 py-2 sm:py-3 font-semibold transition-all"
-              >
-                Explore Leaderboard <ArrowRight className="w-4 h-4 ml-2" />
-              </Button>
-            </Link>
+            {/* Info Card */}
+            <motion.div
+              className="bg-gradient-to-br from-[#4a3a7d]/40 to-[#3d2b5a]/40 rounded-3xl border border-purple-400/30 backdrop-blur-xl p-6 md:p-8 hover:border-purple-400/60 transition-all"
+              whileHover={{ scale: 1.02 }}
+            >
+              <h3 className="text-lg md:text-xl font-bold text-amber-300 mb-3 md:mb-4">
+                MERAK ADALAH ...
+              </h3>
+              <p className="text-sm md:text-base text-purple-100/80 leading-relaxed">
+                Simbol keindahan, keanggunan, dan kebanggan. Merak dikenal dengan bulu ekornya yang indah dan berwarna-warni. Dalam banyak budaya, merak melambangkan kemewahan, kebijaksanaan, dan keberuntungan.
+              </p>
+            </motion.div>
           </motion.div>
         </motion.div>
+
+        {/* Featured Section */}
+        <motion.div
+          className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 mt-8 md:mt-12"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+        >
+          {/* Section Header */}
+          <motion.div
+            variants={itemVariants}
+            className="text-center mb-8 md:mb-12"
+          >
+            <p className="text-xs md:text-sm tracking-widest text-amber-300/70 mb-2">
+              PENJELASAN SINGKAT TENTANG MERAK
+            </p>
+          </motion.div>
+
+          {/* Featured Cards */}
+          <motion.div
+            className="grid md:grid-cols-3 gap-4 md:gap-6"
+            variants={containerVariants}
+          >
+            {/* Main Card - Left */}
+            <motion.div
+              variants={itemVariants}
+              className="md:col-span-1 bg-gradient-to-br from-[#4a3a7d]/40 to-[#3d2b5a]/40 rounded-3xl border border-purple-400/30 backdrop-blur-xl p-6 md:p-8 hover:border-purple-400/60 transition-all flex flex-col justify-between"
+            >
+              <div>
+                <p className="text-sm md:text-base text-purple-100/80 leading-relaxed mb-6">
+                  Merak (Pavo cristatus) adalah burung yang terkenal karena keindahan bulu ekornya yang menakjubkan. Bulu ini digunakan oleh merak jantan untuk menarik perhatian merak betina saat musim kawin.
+                </p>
+              </div>
+              <motion.button
+                whileHover={{ x: 5 }}
+                className="flex items-center gap-2 text-amber-300 font-semibold text-sm hover:text-amber-200 transition-colors"
+              >
+                <ArrowRight className="w-4 h-4" />
+                Lanjutkan...
+              </motion.button>
+            </motion.div>
+
+            {/* Center - Featured Image */}
+            <motion.div
+              variants={itemVariants}
+              className="md:col-span-1 flex items-center justify-center"
+            >
+              <motion.div
+                className="relative w-full h-96 md:h-full rounded-3xl overflow-hidden border-2 border-amber-400/40"
+                whileHover={{ scale: 1.05 }}
+              >
+                <Image
+                  src="/peacock-feather-close.jpg"
+                  alt="Peacock Detail"
+                  fill
+                  className="object-cover"
+                />
+                {/* Golden circle frame effect */}
+                <div className="absolute inset-0 rounded-3xl border-8 border-amber-400/20 pointer-events-none" />
+              </motion.div>
+            </motion.div>
+
+            {/* Right Card */}
+            <motion.div
+              variants={itemVariants}
+              className="md:col-span-1 bg-gradient-to-br from-[#4a3a7d]/40 to-[#3d2b5a]/40 rounded-3xl border border-purple-400/30 backdrop-blur-xl p-6 md:p-8 hover:border-purple-400/60 transition-all flex flex-col justify-between"
+            >
+              <div>
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-2 text-amber-300 font-semibold text-sm hover:text-amber-200 transition-colors mb-4"
+                >
+                  <ArrowRight className="w-4 h-4" />
+                  Sampe ini aja.
+                </motion.button>
+                <p className="text-sm md:text-base text-purple-100/80 leading-relaxed">
+                  Selain indah, merak juga melambangkan nilai-nilai positif seperti kepercayaan diri, keanggunan, dan kebhakshanan. Motif bulu merak sering digunakan dalam seni, budaya, dan desain sebagai inspirasi.
+                </p>
+              </div>
+            </motion.div>
+          </motion.div>
+        </motion.div>
+
+        {/* Scroll Indicator */}
+        <motion.div
+          className="flex justify-center mt-12 md:mt-16"
+          animate={{ y: [0, 10, 0] }}
+          transition={{ duration: 2, repeat: Infinity }}
+        >
+          <div className="flex flex-col items-center gap-2">
+            <p className="text-xs md:text-sm tracking-widest text-amber-300">GULIR</p>
+            <div className="w-8 h-8 rounded-full border-2 border-amber-400/40 flex items-center justify-center">
+              <ChevronDown className="w-4 h-4 text-amber-300" />
+            </div>
+          </div>
+        </motion.div>
+
+        {/* Gallery Section */}
+        <motion.div
+          className="max-w-7xl mx-auto p-4 md:p-6 lg:p-8 mt-12 md:mt-20"
+          variants={containerVariants}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true, margin: '0px 0px -100px 0px' }}
+        >
+          {/* Gallery Grid */}
+          <motion.div
+            className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-6"
+            variants={containerVariants}
+          >
+            {/* Card 1 */}
+            <motion.div
+              variants={itemVariants}
+              className="relative group rounded-3xl overflow-hidden border-2 border-amber-400/40 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="relative w-full aspect-square">
+                <Image
+                  src="/peacock-feather-close.jpg"
+                  alt="Peacock Feather"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-2 text-amber-300 font-semibold"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+
+            {/* Card 2 */}
+            <motion.div
+              variants={itemVariants}
+              className="relative group rounded-3xl overflow-hidden border-2 border-amber-400/40 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="relative w-full aspect-square">
+                <Image
+                  src="/peacock-profile.jpg"
+                  alt="Peacock Profile"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-2 text-amber-300 font-semibold"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+
+            {/* Card 3 - Large */}
+            <motion.div
+              variants={itemVariants}
+              className="sm:col-span-2 lg:col-span-1 lg:row-span-2 relative group rounded-3xl overflow-hidden border-2 border-amber-400/40 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="relative w-full h-full aspect-auto lg:aspect-square">
+                <Image
+                  src="/peacock-garden.jpg"
+                  alt="Peacock in Garden"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-2 text-amber-300 font-semibold"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+
+            {/* Card 4 */}
+            <motion.div
+              variants={itemVariants}
+              className="relative group rounded-3xl overflow-hidden border-2 border-amber-400/40 cursor-pointer"
+              whileHover={{ scale: 1.05 }}
+            >
+              <div className="relative w-full aspect-square">
+                <Image
+                  src="/peacock-hero.jpg"
+                  alt="Peacock Hero"
+                  fill
+                  className="object-cover group-hover:scale-110 transition-transform duration-300"
+                />
+              </div>
+              <div className="absolute inset-0 bg-gradient-to-t from-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity flex items-end p-4">
+                <motion.button
+                  whileHover={{ x: 5 }}
+                  className="flex items-center gap-2 text-amber-300 font-semibold"
+                >
+                  <ArrowRight className="w-5 h-5" />
+                </motion.button>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Add Button */}
+          <motion.div
+            className="flex justify-end mt-8"
+            variants={itemVariants}
+          >
+            <motion.button
+              whileHover={{ scale: 1.1, boxShadow: '0 0 30px rgba(217, 119, 6, 0.4)' }}
+              whileTap={{ scale: 0.95 }}
+              className="w-16 h-16 rounded-full border-2 border-purple-400/50 bg-gradient-to-br from-[#4a3a7d]/50 to-[#3d2b5a]/50 flex items-center justify-center hover:border-amber-400/70 transition-all backdrop-blur-xl"
+            >
+              <Plus className="w-8 h-8 text-amber-300" />
+            </motion.button>
+          </motion.div>
+        </motion.div>
+
+        {/* Footer */}
+        <motion.footer
+          className="mt-16 md:mt-24 pb-8 text-center"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+        >
+          <p className="text-xs md:text-sm tracking-widest text-purple-300/50">
+            ✨ CREATED BY MUHAMMAD FAJRI ✨
+          </p>
+        </motion.footer>
       </div>
     </main>
   )
