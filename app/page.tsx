@@ -4,6 +4,8 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import Link from 'next/link'
 import { useEffect, useState } from 'react'
+import Image from 'next/image'
+import { Home, Grid3x3, Settings, User } from 'lucide-react'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -25,25 +27,12 @@ const itemVariants = {
   },
 }
 
-const shimmerVariants = {
-  hidden: { backgroundPosition: '200% 0' },
-  visible: {
-    backgroundPosition: '-200% 0',
-    transition: {
-      duration: 2,
-      repeat: Infinity,
-      ease: 'linear',
-    },
-  },
-}
-
 export default function Landing() {
   const [mounted, setMounted] = useState(false)
   const [visitorCount, setVisitorCount] = useState(0)
 
   useEffect(() => {
     setMounted(true)
-    // Fetch live visitor count from Vercel Analytics
     const fetchLiveVisitors = async () => {
       try {
         const response = await fetch('/api/analytics/live-visitors', {
@@ -52,17 +41,13 @@ export default function Landing() {
         if (response.ok) {
           const data = await response.json()
           setVisitorCount(data.count)
-          console.log('[v0] Live visitors from', data.source, ':', data.count)
         }
       } catch (error) {
         console.error('[v0] Error fetching live visitors:', error)
       }
     }
     
-    // Fetch immediately
     fetchLiveVisitors()
-    
-    // Refresh every 10 seconds
     const interval = setInterval(fetchLiveVisitors, 10000)
     return () => clearInterval(interval)
   }, [])
@@ -70,195 +55,239 @@ export default function Landing() {
   if (!mounted) return null
 
   return (
-    <main className="min-h-screen text-foreground overflow-hidden relative">
-      {/* Ultra 3D decorative elements with maroon/gold glow */}
-      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-accent/30 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 animate-pulse" />
-      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/30 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 animate-pulse" style={{ animationDelay: '1s' }} />
-      <div className="absolute top-1/4 right-1/4 w-[400px] h-[400px] bg-secondary/20 rounded-full blur-[100px]" style={{ animation: 'float 6s ease-in-out infinite' }} />
+    <main className="min-h-screen text-foreground overflow-hidden relative bg-background">
+      {/* Decorative background elements */}
+      <div className="absolute top-0 left-0 w-[500px] h-[500px] bg-accent/20 rounded-full blur-[120px] -translate-x-1/2 -translate-y-1/2 animate-pulse" />
+      <div className="absolute bottom-0 right-0 w-[500px] h-[500px] bg-primary/20 rounded-full blur-[120px] translate-x-1/2 translate-y-1/2 animate-pulse" style={{ animationDelay: '1s' }} />
 
-      <div className="relative z-10">
-        {/* Header */}
+      <div className="relative z-10 flex flex-col min-h-screen">
+        {/* Search and Admin Header */}
         <motion.header
-          className="flex justify-between items-center p-5 md:p-6 max-w-7xl mx-auto relative z-10"
+          className="px-5 md:px-8 py-6 flex flex-col gap-4"
           initial={{ opacity: 0, y: -20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.4 }}
         >
-          <div className="flex items-center gap-4">
-            <h1 className="font-edu text-2xl md:text-3xl font-700 text-primary neon-text">
+          <div className="flex justify-between items-center">
+            <h1 className="font-comic text-xl md:text-2xl font-700 text-primary">
               Welcome Ceremony
             </h1>
-            {visitorCount > 0 && (
-              <motion.div
-                className="text-sm font-comic text-foreground/90"
-                initial={{ opacity: 0, scale: 0.8 }}
-                animate={{ opacity: 1, scale: 1 }}
-              >
-                <span className="inline-flex items-center gap-2 px-4 py-2 rounded-2xl gradient-glass-card card-shadow-3d">
-                  <span className="inline-block w-2 h-2 bg-accent rounded-full" style={{ animation: 'pulse-glow 1.5s ease-in-out infinite' }} />
-                  <span className="font-semibold">Live — {visitorCount} {visitorCount === 1 ? 'person' : 'people'} here</span>
-                </span>
-              </motion.div>
-            )}
+            <Link href="/admin/login">
+              <Button variant="outline" className="rounded-xl border-2 border-accent/50">
+                Admin
+              </Button>
+            </Link>
           </div>
-          <Link href="/admin/login">
-            <Button
-              variant="outline"
-              className="text-sm border-2 border-primary text-primary hover:bg-primary hover:text-primary-foreground rounded-xl transition-all btn-3d"
-            >
-              Admin
-            </Button>
-          </Link>
+
+          {/* Search Bar */}
+          <div className="max-w-2xl mx-auto w-full">
+            <div className="relative rounded-full bg-gradient-to-r from-accent/30 to-primary/30 p-0.5">
+              <input
+                type="text"
+                placeholder="What would you like to know?"
+                className="w-full bg-background/80 text-foreground placeholder:text-foreground/50 rounded-full px-6 py-3 focus:outline-none focus:ring-2 focus:ring-accent"
+              />
+            </div>
+          </div>
         </motion.header>
 
-        {/* Main content */}
+        {/* Main Galaksi-style container */}
         <motion.div
-          className="flex flex-col items-center justify-center min-h-[calc(100vh-120px)] px-5 py-12 relative z-10"
+          className="flex-1 flex flex-col items-center justify-center px-5 md:px-8 pb-24 relative z-10"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          {/* Title */}
-          <motion.div className="text-center max-w-2xl" variants={itemVariants}>
-            <h2 className="font-licorice text-5xl md:text-7xl font-700 mb-4 neon-text" style={{
-              background: 'linear-gradient(135deg, hsl(45 95% 70%) 0%, hsl(45 100% 55%) 50%, hsl(0 65% 45%) 100%)',
-              WebkitBackgroundClip: 'text',
-              WebkitTextFillColor: 'transparent',
-              backgroundClip: 'text'
-            }}>
-              You&apos;re in!
-            </h2>
-            <p className="text-lg md:text-xl text-foreground/90 mb-8 font-comic">
-              Join us for an interactive welcome ceremony. Ask questions, test your knowledge, and share your feedback!
-            </p>
-          </motion.div>
+          <div className="w-full max-w-5xl space-y-8">
+            {/* Hero Section with layered rounded cards */}
+            <motion.div
+              className="relative rounded-4xl overflow-hidden"
+              variants={itemVariants}
+            >
+              <div className="gradient-glass-card rounded-4xl p-8 md:p-12 flex flex-col md:flex-row items-center gap-8 card-shadow-3d relative z-10">
+                {/* Left Content */}
+                <div className="flex-1 space-y-6">
+                  <div>
+                    <p className="text-xs md:text-sm uppercase tracking-widest text-accent font-comic font-bold mb-3">
+                      Challenge ✨ Welcome Ceremony
+                    </p>
+                    <h2 className="text-4xl md:text-5xl font-700 text-foreground mb-4 font-comic" style={{
+                      background: 'linear-gradient(135deg, hsl(45 95% 70%) 0%, hsl(0 65% 45%) 100%)',
+                      WebkitBackgroundClip: 'text',
+                      WebkitTextFillColor: 'transparent',
+                      backgroundClip: 'text'
+                    }}>
+                      You&apos;re in!
+                    </h2>
+                  </div>
 
-          {/* CTA Buttons */}
-          <motion.div
-            className="flex flex-col md:flex-row gap-4 md:gap-6 mt-8 w-full md:w-auto justify-center flex-wrap"
-            variants={itemVariants}
-          >
-            <Link href="/ask-question" className="w-full md:w-auto">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full"
-              >
-                <Button
-                  size="lg"
-                  className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground rounded-2xl font-edu text-lg btn-3d"
-                >
-                  Ask a Question 💭
-                </Button>
-              </motion.div>
-            </Link>
+                  <div className="bg-background/30 rounded-2xl p-4 border border-accent/20">
+                    <p className="text-sm md:text-base text-foreground/90 leading-relaxed">
+                      Join us for an interactive welcome ceremony. Ask questions, test your knowledge, and share your feedback. Make connections and celebrate together!
+                    </p>
+                  </div>
 
-            <Link href="/quiz" className="w-full md:w-auto">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full"
-              >
-                <Button
-                  size="lg"
-                  className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-2xl font-edu text-lg btn-3d"
-                >
-                  Take the Quiz 🧠
-                </Button>
-              </motion.div>
-            </Link>
-
-            <Link href="/leaderboard" className="w-full md:w-auto">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full"
-              >
-                <Button
-                  size="lg"
-                  className="w-full bg-accent hover:bg-accent/90 text-accent-foreground rounded-2xl font-edu text-lg btn-3d"
-                >
-                  Leaderboard 🏆
-                </Button>
-              </motion.div>
-            </Link>
-
-            <Link href="/feedback" className="w-full md:w-auto">
-              <motion.div
-                whileHover={{ scale: 1.05, y: -4 }}
-                whileTap={{ scale: 0.95 }}
-                className="w-full"
-              >
-                <Button
-                  size="lg"
-                  className="w-full gradient-maroon-gold hover:opacity-90 text-white rounded-2xl font-edu text-lg"
-                >
-                  Give Feedback ⭐
-                </Button>
-              </motion.div>
-            </Link>
-          </motion.div>
-
-          {/* Features */}
-          <motion.div
-            className="grid grid-cols-1 md:grid-cols-3 gap-6 mt-16 w-full max-w-4xl"
-            variants={itemVariants}
-          >
-            {[
-              {
-                title: 'Interactive Q&A',
-                description: 'Real-time polling and questions',
-                icon: '💬',
-              },
-              {
-                title: 'Knowledge Quiz',
-                description: '30-second timed challenges',
-                icon: '🧠',
-              },
-              {
-                title: 'Leaderboard',
-                description: 'Compete and see rankings',
-                icon: '🏆',
-              },
-            ].map((feature, index) => (
-              <motion.div
-                key={index}
-                className="relative group rounded-3xl overflow-hidden"
-                variants={itemVariants}
-                whileHover={{ y: -12, scale: 1.03, transition: { duration: 0.3 } }}
-              >
-                <div className="absolute inset-0 bg-gradient-to-br from-accent/30 via-transparent to-primary/30 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
-                <div className="gradient-glass-card backdrop-blur-xl rounded-3xl p-6 text-center transition-all duration-300 relative z-10 card-shadow-3d glow-border">
-                  <div className="text-5xl mb-4 float-animation" style={{ animationDelay: `${index * 0.2}s` }}>{feature.icon}</div>
-                  <h3 className="font-edu text-xl font-600 text-accent mb-2 neon-text">
-                    {feature.title}
-                  </h3>
-                  <p className="text-sm text-foreground/80 font-comic">
-                    {feature.description}
-                  </p>
+                  {/* CTA Buttons */}
+                  <div className="flex gap-3 pt-4">
+                    <Link href="/ask-question" className="flex-1">
+                      <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground rounded-xl font-comic font-bold py-6">
+                        ASK QUESTION
+                      </Button>
+                    </Link>
+                    <Link href="/quiz" className="flex-1">
+                      <Button className="w-full bg-accent hover:bg-accent/90 text-accent-foreground rounded-xl font-comic font-bold py-6">
+                        START QUIZ
+                      </Button>
+                    </Link>
+                  </div>
                 </div>
-              </motion.div>
-            ))}
-          </motion.div>
 
-          {/* Footer CTA */}
-          <motion.div
-            className="mt-16 text-center"
-            variants={itemVariants}
-          >
-            <p className="text-foreground/70 font-lora mb-4">
-              Share your feedback at the end to help us improve!
-            </p>
-            <Link href="/leaderboard">
-              <Button
-                variant="ghost"
-                className="text-accent hover:bg-accent/10 font-playfair"
-              >
-                View Leaderboard →
-              </Button>
-            </Link>
-          </motion.div>
+                {/* Peacock Mascot */}
+                <motion.div
+                  className="flex-1 flex justify-center"
+                  animate={{ y: [0, -10, 0] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                >
+                  <div className="relative w-48 h-48 md:w-64 md:h-64">
+                    <Image
+                      src="/peacock-mascot.jpg"
+                      alt="Welcome Peacock Mascot"
+                      fill
+                      className="object-contain drop-shadow-2xl"
+                    />
+                  </div>
+                </motion.div>
+              </div>
+            </motion.div>
+
+            {/* Features Grid */}
+            <motion.div
+              className="grid grid-cols-2 md:grid-cols-4 gap-3"
+              variants={itemVariants}
+            >
+              {[
+                { label: 'Home', icon: Home },
+                { label: 'Gallery', icon: Grid3x3 },
+                { label: 'Settings', icon: Settings },
+                { label: 'Profile', icon: User },
+              ].map((item, index) => (
+                <motion.div
+                  key={index}
+                  whileHover={{ y: -4, scale: 1.05 }}
+                  className="rounded-2xl gradient-glass-card p-4 card-shadow-3d flex flex-col items-center justify-center gap-2 cursor-pointer group"
+                >
+                  <div className="w-10 h-10 bg-accent/20 rounded-lg flex items-center justify-center group-hover:bg-accent/40 transition-colors">
+                    <item.icon className="w-5 h-5 text-accent" />
+                  </div>
+                  <span className="text-xs md:text-sm font-comic text-foreground/80 group-hover:text-foreground transition-colors">
+                    {item.label}
+                  </span>
+                </motion.div>
+              ))}
+            </motion.div>
+
+            {/* Info Cards - Galaksi Style Curved Layout */}
+            <motion.div
+              className="space-y-4"
+              variants={itemVariants}
+            >
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                {/* Left Card */}
+                <div className="rounded-3xl gradient-glass-card p-6 card-shadow-3d overflow-hidden relative">
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-accent/10 rounded-full blur-2xl" />
+                  <div className="relative z-10">
+                    <h3 className="font-comic font-bold text-lg text-primary mb-3">Learn About Us</h3>
+                    <p className="text-sm text-foreground/80 mb-4 leading-relaxed">
+                      Discover what makes our welcome ceremony special. Interactive, engaging, and designed for everyone.
+                    </p>
+                    <button className="text-accent hover:text-accent/80 font-comic font-bold text-sm flex items-center gap-2">
+                      → Continue here
+                    </button>
+                  </div>
+                </div>
+
+                {/* Right Card with Live Count */}
+                <div className="rounded-3xl gradient-glass-card p-6 card-shadow-3d overflow-hidden relative">
+                  <div className="absolute -top-20 -right-20 w-40 h-40 bg-primary/10 rounded-full blur-2xl" />
+                  <div className="relative z-10">
+                    <h3 className="font-comic font-bold text-lg text-primary mb-3">Join Now</h3>
+                    {visitorCount > 0 && (
+                      <p className="text-sm text-foreground/80 mb-4">
+                        <span className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-accent/20 text-accent font-bold text-xs">
+                          <span className="inline-block w-2 h-2 bg-accent rounded-full animate-pulse" />
+                          {visitorCount} {visitorCount === 1 ? 'person' : 'people'} here now
+                        </span>
+                      </p>
+                    )}
+                    <button className="text-accent hover:text-accent/80 font-comic font-bold text-sm flex items-center gap-2">
+                      → Sample this
+                    </button>
+                  </div>
+                </div>
+              </div>
+
+              {/* Bottom Navigation Preview */}
+              <div className="rounded-3xl gradient-glass-card p-8 card-shadow-3d">
+                <p className="text-center text-xs uppercase tracking-widest text-foreground/60 mb-4 font-comic font-bold">
+                  Explore More Activities
+                </p>
+                <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                  {[
+                    { title: 'Ask Questions', icon: '💭' },
+                    { title: 'Take Quiz', icon: '🧠' },
+                    { title: 'Leaderboard', icon: '🏆' },
+                    { title: 'Give Feedback', icon: '⭐' },
+                  ].map((activity, index) => (
+                    <Link key={index} href={
+                      activity.title === 'Ask Questions' ? '/ask-question' :
+                      activity.title === 'Take Quiz' ? '/quiz' :
+                      activity.title === 'Leaderboard' ? '/leaderboard' :
+                      '/feedback'
+                    }>
+                      <motion.div
+                        whileHover={{ scale: 1.05, y: -2 }}
+                        className="rounded-2xl bg-background/40 border border-accent/30 p-4 text-center cursor-pointer hover:border-accent/60 transition-colors"
+                      >
+                        <div className="text-3xl mb-2">{activity.icon}</div>
+                        <p className="text-xs md:text-sm font-comic text-foreground/80 font-bold">
+                          {activity.title}
+                        </p>
+                      </motion.div>
+                    </Link>
+                  ))}
+                </div>
+              </div>
+            </motion.div>
+          </div>
         </motion.div>
+
+        {/* Bottom Navigation Bar */}
+        <motion.nav
+          className="fixed bottom-0 left-0 right-0 z-50 bg-gradient-to-t from-background to-background/80 backdrop-blur-xl border-t border-accent/20"
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ duration: 0.5, delay: 0.3 }}
+        >
+          <div className="max-w-5xl mx-auto flex justify-around items-center px-5 py-3">
+            {[
+              { icon: Home, label: 'Home', href: '/' },
+              { icon: Grid3x3, label: 'Explore', href: '/leaderboard' },
+              { icon: Settings, label: 'More', href: '/feedback' },
+              { icon: User, label: 'Profile', href: '/' },
+            ].map((nav, index) => (
+              <Link key={index} href={nav.href}>
+                <motion.div
+                  whileHover={{ scale: 1.1 }}
+                  whileTap={{ scale: 0.95 }}
+                  className="flex flex-col items-center justify-center p-2 rounded-xl hover:bg-accent/10 transition-colors"
+                >
+                  <nav.icon className="w-6 h-6 text-foreground/70 group-hover:text-accent" />
+                  <span className="text-xs text-foreground/60 mt-1">{nav.label}</span>
+                </motion.div>
+              </Link>
+            ))}
+          </div>
+        </motion.nav>
       </div>
     </main>
   )
